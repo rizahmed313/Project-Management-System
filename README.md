@@ -1,23 +1,39 @@
-<<<<<<< HEAD
-# Project-Management-System
-Project Management System
-=======
-# Salesforce DX Project: Next Steps
+# Salesforce Project Management (SFDX deployable)
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+This repository contains a complete SFDX-style source package for a small Project Management solution:
+- Custom objects: Project__c, Milestone__c, ToDo__c
+- Fields: master-detail relationships, roll-up summary fields, formula fields, checkbox, date
+- Apex: ProjectService (Apex controller) and ProjectServiceTest (unit tests)
+- LWC: projectCreator (form to create Project + Milestones + ToDos and preview)
+- Validation rule example on ToDo__c
 
-## How Do You Plan to Deploy Your Changes?
+## How to deploy
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+1. Authenticate to your target org:
+   ```
+   sfdx auth:web:login -a MyDevOrg
+   ```
 
-## Configure Your Salesforce DX Project
+2. Deploy source:
+   ```
+   sfdx force:source:deploy -p project_metadata/force-app -u MyDevOrg
+   ```
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+3. Run tests:
+   ```
+   sfdx force:apex:test:run -u MyDevOrg --classnames ProjectServiceTest --resultformat human --wait 10
+   ```
 
-## Read All About It
+4. Add the `projectCreator` LWC to a Lightning App Page / Home Page / Record Page using Lightning App Builder.
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
->>>>>>> 346da40 (Wex changes)
+## Notes & caveats
+
+- The package is prepared in **source format** and ready to deploy with `sfdx force:source:deploy`.
+- Roll-up summary fields depend on master-detail relationships; the files are included in the correct order in the `objects/` folder.
+- Formula fields are read-only, which enforces the requirement that **Status** cannot be edited manually.
+- If deployment fails due to ordering issues, deploy the whole `force-app` directory (recommended) instead of individual files.
+- Child relationship API names used in Apex and LWC:
+  - Milestones child list on Project__c -> `Milestones__r`
+  - ToDos child list on Milestone__c -> `ToDos__r`
+
+
