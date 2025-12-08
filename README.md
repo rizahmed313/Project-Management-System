@@ -1,4 +1,3 @@
-UPDATED README.md (FINAL VERSION)
 # Salesforce Project Management (SFDX Deployable Package)
 
 This repository contains a complete Salesforce Project Management solution built using:
@@ -8,7 +7,7 @@ This repository contains a complete Salesforce Project Management solution built
 - **Apex:** ProjectService (project creation + overview), ProjectServiceTest  
 - **LWC:** `projectCreator` component for creating projects and listing all existing projects  
 - **Validation:** Example rule on ToDo__c enforcing Due Date when marked complete  
-- **Permission Set:** `Project_Creator_Permissions` for controlled access
+- **Permission Set:** `Project_Creator_Permissions` for controlled access  
 
 ---
 
@@ -17,145 +16,142 @@ This repository contains a complete Salesforce Project Management solution built
 ### **1. Authenticate to your Developer Org**
 ```bash
 sfdx auth:web:login -a MyDevOrg
+```
 
-2. Deploy the SFDX Source Package
+---
+
+### **2. Deploy the SFDX Source Package**
+```bash
 sfdx force:source:deploy -p project_metadata/force-app -u MyDevOrg
+```
 
-3. Assign the Permission Set
+---
+
+### **3. Assign the Permission Set**
+```bash
 sfdx force:user:permset:assign -n Project_Creator_Permissions -u MyDevOrg
+```
 
-4. Run Apex Tests (Required for most assessments)
+---
+
+### **4. Run Apex Tests (Required for most assessments)**
+```bash
 sfdx force:apex:test:run -u MyDevOrg --classnames ProjectServiceTest --resultformat human --wait 10
+```
 
-### **🧩 Component Placement Instructions (User Guide)**
-```bash
-After deployment, follow these steps to add the Project Creator LWC to a Lightning Page:
+---
 
-Add the LWC to a Lightning App Page (Recommended)
+# 🧩 Component Placement Instructions (User Guide)
 
-Go to Setup
+After deployment, follow these steps to add the **Project Creator LWC** to a Lightning Page.
 
-Search for Lightning App Builder in Quick Find
+---
 
-Click New → App Page
+## ✅ Add the LWC to a Lightning App Page (Recommended)
 
-Choose a layout (1 region recommended)
+1. Go to **Setup**
+2. Search for **Lightning App Builder** in Quick Find  
+3. Click **New → App Page**
+4. Choose a layout (1 region recommended)
+5. Name it: **Project Management Console**
+6. Drag the **projectCreator** component onto the canvas
+7. Click **Save → Activate**
+8. Expose it in the **App Launcher**
 
-Name it: Project Management Console
+Users can now access the page directly from the App Launcher.
 
-Drag the component projectCreator onto the canvas
+---
 
-Click Save → Activate
+## ➕ Optional: Add Component to Home Page
 
-Make it available in the App Launcher
+1. Setup → Lightning App Builder → Home Page  
+2. Clone **Default Home Page** (recommended)  
+3. Drag the **projectCreator** component to the top  
+4. Save + Activate  
 
-Users can now access the page from the App Launcher.
+---
 
-Optional: Add the Component to the Home Page
+## ➕ Optional: Add Component to a Record Page
 
-Setup → Lightning App Builder → Home Page
+1. Navigate to any **Project__c** or other record  
+2. Click **Edit Page**  
+3. Drag **projectCreator** onto a region  
+4. Save + Activate  
 
-Clone Default Home Page (recommended)
+💡 *Note: The component does **not** require a recordId. It behaves as a standalone “project creation + list” console.*
 
-Drag projectCreator to the top region
+---
 
-Save + Activate
+# 🔐 Permission Set: *Project_Creator_Permissions*
 
-Optional: Add the Component to a Record Page
+This permission set grants:
 
-Navigate to any record (Project__c or any object)
+- Read/Write access to **Project__c**, **Milestone__c**, **ToDo__c**  
+- Access to **Apex Class** `ProjectService`  
+- Access to **Lightning Component** `projectCreator`  
 
-Click Edit Page
+Assign it to any user who needs permission to manage projects.
 
-Drag projectCreator into a section of the layout
+---
 
-Save + Activate
+# 🧱 Project Architecture Overview
 
-Note: The component does not require a recordId; it acts as a standalone “project creation + list” console.
+## **Data Model**
 
-### **🔐 Permission Set: Project_Management_Access**
-```bash
-Included in this repo is a Permission Set granting:
+### **Project__c**
+- Name  
+- Owner  
+- Percent_Complete__c *(formula)*  
+- Status__c *(formula)*  
 
-Read/Write access to Project__c, Milestone__c, ToDo__c
+### **Milestone__c**
+- Master-Detail: Project__c  
+- Rollups: Total_ToDos__c, Incomplete_ToDos__c  
+- Percent_Complete__c *(formula)*  
+- Status__c *(formula)*  
 
-Access to Apex class ProjectService
+### **ToDo__c**
+- Master-Detail: Milestone__c  
+- Checkbox: Is_Complete__c  
+- Date: Due_Date__c  
+- Validation rule enforcing due date when complete  
 
-Access to Lightning Component projectCreator
+---
 
-Assign it to any user who needs to create and manage projects.
+## **Apex**
+- `createProjectWithChildren(payloadJson)`  
+- `getAllProjects()`  
+- `getProjectOverview()` (wrapper-based)  
+- Full test class: `ProjectServiceTest`
 
+---
 
-### **🧱 Project Architecture Overview**
-```bash
-Data Model
+## **LWC**
+- Create a new project with milestones + tasks  
+- Automatically load all projects into a datatable  
+- Provide row action to navigate to project record page  
+- Fully dynamic milestone/task management UX  
 
-Project__c
+---
 
-Name, Owner, Percent_Complete__c (formula), Status__c (formula)
+# 📝 Notes & Caveats
 
-Milestone__c
+- Formula fields ensure users **cannot manually change** Project or Milestone statuses.  
+- Roll-up summary fields require correct object/field order; this repo handles that.  
+- Deploy the entire `force-app` folder if you experience ordering issues.  
+- Child relationship names used:  
+  - Project__c → `Milestones__r`  
+  - Milestone__c → `ToDos__r`  
 
-Master-Detail: Project__c
+---
 
-Rollups: Total_ToDos__c, Incomplete_ToDos__c
+# 📬 Support
 
-Percent_Complete__c formula, Status__c formula
+If you need enhancements such as:
 
-ToDo__c
+- Inline editing of milestones or tasks  
+- Adding charts or progress indicators  
+- Advanced filtering/search  
+- Integration with Flows or Approvals  
 
-Master-Detail: Milestone__c
-
-Checkbox: Is_Complete__c
-
-Date: Due_Date__c
-
-Validation rule requiring a due date when complete
-
-Apex
-
-createProjectWithChildren(payloadJson)
-
-getAllProjects()
-
-Wrapper-based getProjectOverview()
-
-Comprehensive test class
-
-LWC
-
-Create new project with milestones + todos
-
-Automatically load all projects
-
-Display in datatable
-
-Navigate to record via row action
-
-📝 Notes & Caveats
-
-Formula-based status fields ensure users cannot manually change project/milestone statuses.
-
-Roll-up summaries require correct deployment order; this repo includes fields in correct object folders.
-
-Deploy the entire force-app folder to avoid ordering issues.
-
-Child relationship names used:
-
-Project__c → Milestones__r
-
-Milestone__c → ToDos__r
-
-📬 Support
-
-If you need help extending:
-
-Inline editing of milestones or tasks
-
-Adding charts or progress bars
-
-Adding filters/search to the project table
-
-Integration with Flows or Approval Processes
-
-open an issue or contact the developer.
+Feel free to extend the code or request improvements.
