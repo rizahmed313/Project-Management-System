@@ -162,7 +162,6 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
-    <tabs>Project_Management</tabs>
+    <tabs>Project_Management_System</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Project_Management_UtilityBar</utilityBar>
 </CustomApplication>
