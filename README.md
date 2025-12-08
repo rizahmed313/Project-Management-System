@@ -27,7 +27,7 @@ sfdx force:user:permset:assign -n Project_Creator_Permissions -u MyDevOrg
 4. Run Apex Tests (Required for most assessments)
 sfdx force:apex:test:run -u MyDevOrg --classnames ProjectServiceTest --resultformat human --wait 10
 
-#🧩 Component Placement Instructions (User Guide)
+### **🧩 Component Placement Instructions (User Guide)**
 
 After deployment, follow these steps to add the Project Creator LWC to a Lightning Page:
 
@@ -73,7 +73,7 @@ Save + Activate
 
 Note: The component does not require a recordId; it acts as a standalone “project creation + list” console.
 
-🔐 Permission Set: Project_Management_Access
+### **🔐 Permission Set: Project_Management_Access**
 
 Included in this repo is a Permission Set granting:
 
