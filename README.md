@@ -28,7 +28,7 @@ sfdx force:user:permset:assign -n Project_Creator_Permissions -u MyDevOrg
 sfdx force:apex:test:run -u MyDevOrg --classnames ProjectServiceTest --resultformat human --wait 10
 
 ### **🧩 Component Placement Instructions (User Guide)**
-
+```bash
 After deployment, follow these steps to add the Project Creator LWC to a Lightning Page:
 
 Add the LWC to a Lightning App Page (Recommended)
@@ -74,7 +74,7 @@ Save + Activate
 Note: The component does not require a recordId; it acts as a standalone “project creation + list” console.
 
 ### **🔐 Permission Set: Project_Management_Access**
-
+```bash
 Included in this repo is a Permission Set granting:
 
 Read/Write access to Project__c, Milestone__c, ToDo__c
@@ -86,7 +86,8 @@ Access to Lightning Component projectCreator
 Assign it to any user who needs to create and manage projects.
 
 
-🧱 Project Architecture Overview
+### **🧱 Project Architecture Overview**
+```bash
 Data Model
 
 Project__c
