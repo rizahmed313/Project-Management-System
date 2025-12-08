@@ -10,6 +10,10 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
+		<members>Project_Management</members>
+		<name>CustomTab</name>
+	</types>	
+	<types>
 		<members>Milestone__c.Incomplete_ToDos__c</members>
 		<members>Milestone__c.Percent_Complete__c</members>
 		<members>Milestone__c.Project__c</members>
