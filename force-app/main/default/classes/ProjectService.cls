@@ -4,6 +4,7 @@ public with sharing class ProjectService {
     public class ToDoWrapper {
         @AuraEnabled public String name;
         @AuraEnabled public Boolean isComplete;
+        @AuraEnabled public Date dueDate;
     }
 
     public class MilestoneWrapper {
@@ -34,13 +35,9 @@ public with sharing class ProjectService {
     public static Id createProjectWithChildren(String  payloadJson) {
         
         ProjectWrapper payload;
-
-        try {
-            payload = (ProjectWrapper) JSON.deserialize(payloadJson, ProjectWrapper.class);
-        } catch (Exception e) {
-            throw new AuraHandledException('Error parsing payload JSON: ' + e.getMessage());
-        }
-       System.debug('🔥 RECEIVED PAYLOAD: ' + JSON.serialize(payload));
+        
+        payload = (ProjectWrapper) JSON.deserialize(payloadJson, ProjectWrapper.class);
+        
         if (payload == null) throw new AuraHandledException('Payload missing');
         if (String.isBlank(payload.Name)) throw new AuraHandledException('Project Name is required');
 
@@ -69,7 +66,8 @@ public with sharing class ProjectService {
                     for (ToDoWrapper tw : mw.todos) {
                         todoList.add(new ToDo__c(
                             Name = tw.Name,
-                            Is_Complete__c = tw.isComplete
+                            Is_Complete__c = tw.isComplete,
+                            Due_Date__c  = tw.dueDate
                         ));
                     }
                 }
