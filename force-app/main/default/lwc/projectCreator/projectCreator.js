@@ -13,7 +13,7 @@ export default class ProjectCreator extends NavigationMixin(LightningElement) {
     projectColumns = [
     { label: 'Name', fieldName: 'Name', type: 'text' },
     { label: 'Status', fieldName: 'Status__c', type: 'text' },
-    { label: '% Complete', fieldName: 'Percent_Complete__c', type: 'percent' },
+    { label: '% Complete', fieldName: 'Percent_Complete__c', type: 'text' },
     { label: 'Owner', fieldName: 'OwnerName', type: 'text' },
     {
         type: 'button',
