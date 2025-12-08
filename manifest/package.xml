@@ -10,10 +10,6 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
-		<members>Project_Management</members>
-		<name>CustomTab</name>
-	</types>	
-	<types>
 		<members>Milestone__c.Incomplete_ToDos__c</members>
 		<members>Milestone__c.Percent_Complete__c</members>
 		<members>Milestone__c.Project__c</members>
@@ -33,6 +29,10 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
+		<members>Project_Management</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
 		<members>Milestone</members>
 		<members>Milestone_Record_Page</members>
 		<members>Project_Management</members>
@@ -40,10 +40,8 @@
 		<name>FlexiPage</name>
 	</types>
 	<types>
-		<members>Milestone__c-Milestone Layout</members>
-		<members>Project__c-Project Layout</members>
-		<members>ToDo__c-ToDo Layout</members>
-		<name>Layout</name>
+		<members>*</members>
+		<name>HomePageLayout</name>
 	</types>
 	<types>
 		<members>projectCreator</members>
