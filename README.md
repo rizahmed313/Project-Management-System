@@ -15,28 +15,29 @@ This repository contains a complete Salesforce Project Management solution built
 
 ### **1. Authenticate to your Developer Org**
 ```bash
-sfdx auth:web:login -a MyDevOrg
+sf org login web --set-alias MyDevOrg
 ```
 
 ---
 
 ### **2. Deploy the SFDX Source Package**
 ```bash
-sfdx force:source:deploy -p project_metadata/force-app -u MyDevOrg
+sf project deploy start --source-path project_metadata/force-app --target-org MyDevOrg
+
 ```
 
 ---
 
 ### **3. Assign the Permission Set**
 ```bash
-sfdx force:user:permset:assign -n Project_Creator_Permissions -u MyDevOrg
+sf org assign permset --name Project_Creator_Permissions --target-org MyDevOrg
 ```
 
 ---
 
 ### **4. Run Apex Tests (Required for most assessments)**
 ```bash
-sfdx force:apex:test:run -u MyDevOrg --classnames ProjectServiceTest --resultformat human --wait 10
+sf apex run test --tests ProjectServiceTest --target-org MyDevOrg --wait 10 --result-format human
 ```
 
 ---
