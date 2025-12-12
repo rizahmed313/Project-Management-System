@@ -81,4 +81,9 @@
         <viewAllFields>true</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+        <tabSettings>
+            <tab>Project_Management_System</tab>
+            <visibility>Visible</visibility>
+        </tabSettings>
+
 </PermissionSet>
